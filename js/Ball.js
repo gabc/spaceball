@@ -1,7 +1,10 @@
 function Ball () {
     this.x = 0;
-    this.y = 0;
+    this.y = 50;
 
+    this.height = 20;
+    this.width = 20;
+    
     this.xspeed = 0;
     this.yspeed = 2;
 
@@ -11,28 +14,22 @@ function Ball () {
     this.collided = false;
 }
 
-Ball.prototype.tick = function () {
-    this.yspeed += this.yvelocity;
+Ball.prototype.maxSpeed = function () {
+    if (this.yspeed > 5)
+	this.yspeed = 5;
+    else if (this.yspeed < -5)
+	this.yspeed = -5;
+};
 
-    if (this.y + 20 >= 250) {
-	this.yspeed = -this.yspeed;
-    }
+Ball.prototype.tick = function () {    
+    this.yspeed += this.yvelocity;
+    
     this.y += this.yspeed;
 
+    this.maxSpeed();
     ctx.fillRect(this.x, this.y,
-		 20, 20);
-    // return true;
+		 this.height, this.width);
+
     return (this.y < 300);
 };
 
-Ball.prototype.maxSpeed = function () {
-    if (this.xspeed > 7)
-	this.xspeed = 7;
-    else if (this.xspeed < -7)
-	this.xspeed = -7;
-
-    if (this.yspeed > 7)
-	this.yspeed = 7;
-    else if (this.yspeed < -7)
-	this.yspeed = -7;
-};

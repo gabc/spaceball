@@ -16,9 +16,8 @@ Floor.prototype.tick = function () {
     return (this.x > -this.width);
 };
 
-Floor.prototype.colision = function (ball) {
-    	console.log("Mort?");
-    if (ball.x < this.x - this.height || ball.x > this.x + this.height) {
-
+Floor.prototype.collision = function (ball) {
+    if (ball.y + ball.height >= this.y) {
+	;
     }
 };

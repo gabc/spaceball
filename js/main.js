@@ -34,12 +34,8 @@ function addFloor () {
     }
 }
 
-function colision () {
-    for (var i = 0; i < floors.length; i++) {
-	if (sprites[1].y + 20 >= 250) {
-	    ;
-	}
-    }
+function die () {
+    alert("You die");
 }
 
 function tick () {
@@ -47,15 +43,19 @@ function tick () {
 	if (!sprites[i].tick()) {
 	    sprites.splice(i, 1);
 	    i--;
+	    die();
 	}
     }
-    colision();
+    
     for (i = 0; i < floors.length; i ++) {
+	console.log(sprites[1]);
+	floors[i].collision(sprites[1]);
 	if (!floors[i].tick()) {
 	    floors.splice(i, 1);
 	    i--;
 	}
     }
+    
     floorPix++;
     if ((floorPix % 50) == 0) {
     	floorPix = 0;

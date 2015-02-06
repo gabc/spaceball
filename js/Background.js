@@ -7,5 +7,5 @@ Background.prototype.tick = function () {
     if (this.image.complete)
 	ctx.drawImage(this.image, 0, 0);
     return true;
-}
+};
 
