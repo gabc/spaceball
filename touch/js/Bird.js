@@ -9,6 +9,7 @@ function Bird () {
 Bird.prototype.tick = function () {
     ctx.fillRect(this.x, this.y, this.hauteur, this.largeur);
 
-    if (this.x + 15 > mouseX && this.x < mouseX)
+    if (mouseX >= this.x && mouseX <= this.x + this.largeur)
 	return true;
+	
 };

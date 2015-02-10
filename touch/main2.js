@@ -1,10 +1,33 @@
 var ctx;
 var etape = null;
-var statenum = 0;
 var mouseX;
 var mouseY;
 var birds = [];
 var bg = null;
+
+function stateNext () {
+    var state = 0;
+    return function () {
+	if (state == 0) {
+	    state++;
+	    return intro;
+	} else if (state == 1) {
+	    state++;
+	    setTimeout(function () {etape = etat()}, 10000);
+	    return jeu;
+	} else if (state == 2) {
+	    state++;
+	    jeui = 0;
+	    return fin;
+	} else {
+	    console.log(state);
+	    state = 0;
+	    return intro;
+	}
+    };
+}
+
+var etat = stateNext();
 
 window.onload = init;
 
@@ -14,17 +37,6 @@ function dealwithclick (e) {
     console.log(mouseX);
 }
 
-function getNextFun () {
-    if (statenum == 0) 
-	statenum++;
-    else if (statenum == 1) 
-	statenum++;
-    else if (statenum == 2) 
-	statenum = 0;
-    
-    return statenum;
-}
-
 function intro () {
     ctx.fillText("Click on me!", 0, 50);    
     if (mouseX > 50) {
@@ -32,9 +44,19 @@ function intro () {
     }
 }
 
+var jeui = 0;
+
 function jeu () {
     ctx.fillText("Play on me!", 0, 150);
     var v = birds[0].tick();
+
+    if (v == true)
+	jeui++;
+
+    if (jeui < 5)
+	v = false;
+    else
+	v = true;
 
     return v;
 }
@@ -48,8 +70,8 @@ function fin () {
 
 function tick () {
     bg.tick();
-    if (etape[statenum]()) {
-	statenum = getNextFun();
+    if (etape()) {
+	etape = etat();
     }
     window.requestAnimationFrame(tick); // ~60fps
 }
@@ -59,9 +81,8 @@ function init () {
     ctx.fillStyle = "blue";
     ctx.font = "40px Verdana";
     
+    etape = stateNext();
     
-    etape = [intro, jeu, fin];
-
     document.getElementById('canvas').onclick = dealwithclick;
     birds.push(new Bird());
     bg = new Background();
